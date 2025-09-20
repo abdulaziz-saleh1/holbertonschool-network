@@ -1,24 +1,12 @@
 #!/usr/bin/env bash
-# Rewrite /etc/hosts so that localhost resolves to 127.0.0.2 and facebook.com resolves to 8.8.8.8
+# This script modifies /etc/hosts so localhost -> 127.0.0.2 and facebook.com -> 8.8.8.8
 
-tmp_file="$(mktemp)"
+# Remove any previous entries
+sed -i '/127\.0\.0\.2 localhost/d' /etc/hosts
+sed -i '/8\.8\.8\.8 facebook\.com/d' /etc/hosts
+sed -i '/127\.0\.0\.1[[:space:]]\+localhost/d' /etc/hosts
+sed -i '/facebook\.com/d' /etc/hosts
 
-# Put the new localhost mapping first, keep other lines except old localhost/facebook.com,
-# then add the facebook.com mapping at the end.
-awk '
-  BEGIN {
-    print "127.0.0.2 localhost"
-  }
-  # keep every line that is not a localhost(127.0.0.1) or facebook.com entry
-  !/^[[:space:]]*127\.0\.0\.1[[:space:]]+localhost(\b|[[:space:]])/ &&
-  $0 !~ /(^|[[:space:]])facebook\.com([[:space:]]|$)/ {
-    print
-  }
-  END {
-    print "8.8.8.8 facebook.com"
-  }
-' /etc/hosts > "$tmp_file"
-
-# Overwrite /etc/hosts contents without rename
-cat "$tmp_file" > /etc/hosts
-rm -f "$tmp_file"
+# Add the required ones
+echo "127.0.0.2 localhost" >> /etc/hosts
+echo "8.8.8.8 facebook.com" >> /etc/hosts
