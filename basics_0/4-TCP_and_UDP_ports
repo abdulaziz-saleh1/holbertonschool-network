@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-# Script to display listening TCP/UDP ports with PID and program name
+# Show only listening sockets with PID/Program name
 
-netstat -a -p
+# Internet (TCP/UDP, IPv4/IPv6)
+netstat -ltnup
+
+# UNIX domain sockets
+netstat -lxnp
