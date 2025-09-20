@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Ping an IP address passed as an argument five times or print usage if missing
+# Configure /etc/hosts so that localhost -> 127.0.0.2 and facebook.com -> 8.8.8.8
 
-if [ "$#" -eq 0 ]; then
-  echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
-  exit 1
-fi
+# Remove the default localhost IPv4 mapping (keep IPv6 untouched)
+sed -i -E '/^[[:space:]]*127\.0\.0\.1[[:space:]]+localhost(\b.*)?$/d' /etc/hosts
+echo "127.0.0.2 localhost" >> /etc/hosts
 
-ping -c 5 "$1"
+# Remove any previous facebook.com entry and add the required one
+sed -i -E '/(^|[[:space:]])facebook\.com([[:space:]]|$)/d' /etc/hosts
+echo "8.8.8.8 facebook.com" >> /etc/hosts
