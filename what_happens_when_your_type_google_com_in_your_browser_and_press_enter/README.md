@@ -22,4 +22,4 @@ This article explains, step by step, what happens from the moment you press ente
 
 You can see the workflow diagram here (insert the direct image link):  
 
-![Diagram]https://i.imgur.com/l380D90.png)  
+![Diagram](https://i.imgur.com/l38OD90.png)
